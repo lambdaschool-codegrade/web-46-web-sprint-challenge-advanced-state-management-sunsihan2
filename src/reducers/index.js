@@ -1,8 +1,57 @@
-
+import {FETCH_START, FETCH_SUCCESS, FETCH_FAIL, ADD_MEMBER, ADD_ERROR_MESSAGE} from '../actions/index'
+//6. Add in a reducer case to accomidate adding a smurf (including the name, nickname, position, summary and an internally generated id) into your smurf list.
 export const initialState = {
+    smurfs: [
+        {
+            id: Date.now,
+            name:"",
+            nickname:"",
+            position:"",
+            summery:"",
+        }
+    ],
+    loading: false,
+    error:""
 }
 
-const reducer = ()=>{
+const reducer = (state= initialState, action)=>{
+    switch(action.type){
+        case(FETCH_START):
+            console.log()
+            return({
+                ...state,
+                smurfs:[],
+                loading: true,
+                error:""
+            })
+        case(FETCH_SUCCESS):
+            return({
+                ...state,
+                smurfs: action.payload,
+                loading: false,
+                error: ""
+            })
+        case(FETCH_FAIL):
+            return({
+                ...state,
+                smurfs:[],
+                loading: false,
+                error: action.payload
+            })
+        case(ADD_MEMBER):
+            return({
+                ...state,
+                smurfs:[...state.smurfs, {id: Date.now, name: action.payload, nickname: action.payload, position: action.payload, summery: action.payload}]
+            })
+        case (ADD_ERROR_MESSAGE):
+            return({
+                ...state,
+                loading:false,
+                error: action.payload
+            })
+        default:
+            return (state)
+    }
 }
 
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
